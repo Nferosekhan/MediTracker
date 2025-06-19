@@ -39,7 +39,7 @@ Coming Soon...
 
 ## 🧰 Tech Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap
+- **Frontend**: HTML5, CSS3, JavaScript, React.Js, Bootstrap
 - **Backend**: PHP
 - **Database**: MySQL
-- **Server**: Apache (XAMPP/WAMP compatible)
+- **Server**: Apache (XAMPP)
