@@ -8,7 +8,7 @@ export const Newpatient = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: '', dob: '', age: '', gender: '', phone: '', email: '', password: '', address: '', blood_group: '', emergency_contact: '', blood_presure_systolic: '', blood_presure_diastolic: '', sugar_fasting_level: '', sugar_postprandial_level: '', weight: '', heart_rate: '', temperature: '', bmi: ''
+    name: '', dob: '', age: '', gender: '', phone: '', email: '', password: '', address: '', blood_group: '', emergency_contact: '', blood_presure_systolic: '', blood_presure_diastolic: '', sugar_fasting_level: '', sugar_postprandial_level: '', weight: '', height: '', heart_rate: '', temperature: '', bmi: ''
   });
 
   const [profilePic, setProfilePic] = useState(null);
@@ -112,6 +112,7 @@ export const Newpatient = () => {
           { label: 'Sugar Fasting Level', name: 'sugar_fasting_level' },
           { label: 'Sugar Postprandial Level', name: 'sugar_postprandial_level' },
           { label: 'Weight', name: 'weight' },
+          { label: 'Height', name: 'height' },
           { label: 'Heart Rate', name: 'heart_rate' },
           { label: 'Temperature', name: 'temperature' },
           { label: 'BMI', name: 'bmi' }

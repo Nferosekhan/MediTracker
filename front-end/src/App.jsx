@@ -10,6 +10,8 @@ import {Editdoctor} from './components/Editdoctor';
 import {Patient} from './components/Patient';
 import {Newpatient} from './components/Newpatient';
 import {Editpatient} from './components/Editpatient';
+import { OfflineAppointmentForm } from './components/OfflineAppointmentForm';
+import { AdminPrescriptions } from './components/AdminPrescriptions';
 import {Logout} from './components/Logout';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route path="/patient" element={<Patient />} />
           <Route path="/newpatient" element={<Newpatient />} />
           <Route path="/editpatient/:id" element={<Editpatient />} />
+          <Route path="/admin/offline-appointment" element={<OfflineAppointmentForm />} />
+          <Route path="/admin/prescriptions" element={<AdminPrescriptions />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </Router>

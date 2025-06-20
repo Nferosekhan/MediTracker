@@ -36,6 +36,7 @@ if ($_POST['id'] > 0) {
     $sugar_fasting = $_POST['sugar_fasting_level'] ?? '';
     $sugar_post = $_POST['sugar_postprandial_level'] ?? '';
     $weight = $_POST['weight'] ?? '';
+    $height = $_POST['height'] ?? '';
     $heart_rate = $_POST['heart_rate'] ?? '';
     $temperature = $_POST['temperature'] ?? '';
     $bmi = $_POST['bmi'] ?? '';
@@ -59,17 +60,17 @@ if ($_POST['id'] > 0) {
             if ($vitalResult->num_rows > 0) {
                 $updateVitals = $con->prepare("UPDATE vitals SET 
                     blood_presure_systolic=?, blood_presure_diastolic=?, sugar_fasting_level=?,
-                    sugar_postprandial_level=?, weight=?, heart_rate=?, temperature=?, bmi=? 
+                    sugar_postprandial_level=?, weight=?, height=?, heart_rate=?, temperature=?, bmi=? 
                     WHERE patient_id = ?");
-                $updateVitals->bind_param("ssssssssi", $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $heart_rate, $temperature, $bmi, $id);
+                $updateVitals->bind_param("sssssssssi", $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $id);
                 $updateVitals->execute();
                 $updateVitals->close();
             } else {
                 $insertVitals = $con->prepare("INSERT INTO vitals (
                     patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level,
-                    sugar_postprandial_level, weight, heart_rate, temperature, bmi
+                    sugar_postprandial_level, weight, height, heart_rate, temperature, bmi
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $insertVitals->bind_param("issssssss", $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $heart_rate, $temperature, $bmi);
+                $insertVitals->bind_param("isssssssss", $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
                 $insertVitals->execute();
                 $insertVitals->close();
             }

@@ -38,7 +38,7 @@ export const Visitpreviousappointment = ({ setActivePage }) => {
         {appointment.prescription_file ? (
           <>
             <p className="text-muted">File: {appointment.prescription_file}</p>
-            <a className="btn btn-primary" href={`http://localhost/meditracksystem/uploads/${appointment.prescription_file}`} download={appointment.prescription_file} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-primary" href={`http://localhost/meditracksystem/uploads/prescriptions/${appointment.prescription_file}`} download={appointment.prescription_file} target="_blank" rel="noopener noreferrer">
               Download Prescription
             </a>
           </>

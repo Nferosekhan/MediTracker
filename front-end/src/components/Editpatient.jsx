@@ -8,7 +8,7 @@ export const Editpatient = ({ setActivePage }) => {
     name: '', dob: '', age: '', gender: '', phone: '', email: '', password: '',
     address: '', blood_group: '', emergency_contact: '', hid_profile_pic: '',
     blood_presure_systolic: '', blood_presure_diastolic: '', sugar_fasting_level: '',
-    sugar_postprandial_level: '', weight: '', heart_rate: '', temperature: '', bmi: ''
+    sugar_postprandial_level: '', weight: '', height: '', heart_rate: '', temperature: '', bmi: ''
   });
 
   const [profilePic, setProfilePic] = useState(null);
@@ -173,6 +173,7 @@ export const Editpatient = ({ setActivePage }) => {
           ['sugar_fasting_level', 'Sugar Fasting Level'],
           ['sugar_postprandial_level', 'Sugar Postprandial Level'],
           ['weight', 'Weight'],
+          ['height', 'Height'],
           ['heart_rate', 'Heart Rate'],
           ['temperature', 'Temperature'],
           ['bmi', 'BMI'],

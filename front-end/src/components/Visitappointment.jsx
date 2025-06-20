@@ -5,8 +5,7 @@ export const Visitappointment = ({ setActivePage }) => {
   const [appointment, setAppointment] = useState(null);
   const [summary, setSummary] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
-  const [prescriptionFile, setPrescriptionFile] = useState(null);
-  const [existingFileName, setExistingFileName] = useState("");
+  const [prescriptionPath, setPrescriptionPath] = useState("");
 
   const [reminderType, setReminderType] = useState("medicine");
   const [reminderMessage, setReminderMessage] = useState("");
@@ -22,12 +21,11 @@ export const Visitappointment = ({ setActivePage }) => {
       .then((res) => {
         const data = res.data;
         if (!data) return;
-        console.log(data);
         setAppointment(data);
 
         if (data.summary) setSummary(data.summary);
         if (data.diagnosis) setDiagnosis(data.diagnosis);
-        if (data.prescription_file) setExistingFileName(data.prescription_file);
+        if (data.prescription_file) setPrescriptionPath(data.prescription_file);
 
         if (data.trigger_time) setReminderTime(data.trigger_time);
         if (data.message) setReminderMessage(data.message);
@@ -40,33 +38,37 @@ export const Visitappointment = ({ setActivePage }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("appointment_id", appointmentId);
-    formData.append("patient_id", appointment.patient_id);
-    formData.append("doctor_id", appointment.doctor_id);
-    formData.append("visit_date", new Date().toISOString().split("T")[0]);
-    formData.append("summary", summary);
-    formData.append("diagnosis", diagnosis);
+    const form = {
+      appointment_id: appointmentId,
+      patient_id: appointment.patient_id,
+      doctor_id: appointment.doctor_id,
+      visit_date: new Date().toLocaleString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      }).replace(',', '').replace(/\//g, '-'),
+      summary,
+      diagnosis,
+      reminder_type: reminderType,
+      reminder_message: reminderMessage,
+      reminder_time: reminderTime,
+      reminder_method: reminderMethod,
+      status
+    };
 
-    if (prescriptionFile) {
-      formData.append("prescription_file", prescriptionFile);
+    const res = await axios.post("http://localhost/meditracksystem/api/save_visit.php", form);
+    if (res.data.prescription_file) {
+      setPrescriptionPath(res.data.prescription_file);
     }
-
-    formData.append("reminder_type", reminderType);
-    formData.append("reminder_message", reminderMessage);
-    formData.append("reminder_time", reminderTime);
-    formData.append("reminder_method", reminderMethod);
-    formData.append("status", status);
-
-    const res = await axios.post("http://localhost/meditracksystem/api/save_visit.php", formData);
-    console.log(res.data);
     setActivePage("appointments");
   };
 
   if (!appointment) return <p>Loading...</p>;
 
   return (
-  <>
     <div className="container mt-4">
       <h2>Prescription - {appointment.patient_name}</h2>
 
@@ -81,13 +83,14 @@ export const Visitappointment = ({ setActivePage }) => {
           <textarea className="form-control" value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} required />
         </div>
 
-        <div className="mb-3">
-          <label>Upload Prescription File</label>
-          {existingFileName && (
-            <p className="text-muted mb-1">Existing file: <em>{existingFileName}</em></p>
-          )}
-          <input type="file" className="form-control" onChange={(e) => setPrescriptionFile(e.target.files[0])} required={!existingFileName} />
-        </div>
+        {prescriptionPath && (
+          <div className="mb-3">
+            <label>Generated Prescription</label><br />
+            <a href={`http://localhost/meditracksystem/uploads/prescriptions/${prescriptionPath}`} target="_blank" rel="noopener noreferrer">
+              View PDF
+            </a>
+          </div>
+        )}
 
         <hr />
         <h4>Reminder</h4>
@@ -128,15 +131,12 @@ export const Visitappointment = ({ setActivePage }) => {
               <option value="cancelled">Cancelled</option>
             </select>
           </div>
-
         </div>
 
-
         <button className="btn btn-success mt-3" type="submit">
-          Save Visit
+          Save Visit & Generate PDF
         </button>
       </form>
     </div>
-  </>
   );
 };

@@ -48,12 +48,13 @@ if ($_POST['email'] != "") {
             $sugar_fasting = $_POST['sugar_fasting_level'] ?? '';
             $sugar_post = $_POST['sugar_postprandial_level'] ?? '';
             $weight = $_POST['weight'] ?? '';
+            $height = $_POST['height'] ?? '';
             $heart_rate = $_POST['heart_rate'] ?? '';
             $temperature = $_POST['temperature'] ?? '';
             $bmi = $_POST['bmi'] ?? '';
 
-            $vitalStmt = $con->prepare("INSERT INTO vitals (patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $vitalStmt->bind_param("issssssss", $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $heart_rate, $temperature, $bmi);
+            $vitalStmt = $con->prepare("INSERT INTO vitals (patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $vitalStmt->bind_param("isssssssss", $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
             $vitalStmt->execute();
             $vitalStmt->close();
 

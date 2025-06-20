@@ -17,6 +17,8 @@ import { Billing } from './Billing';
 import { Newbilling } from './Newbilling';
 import { Editbilling } from './Editbilling';
 import { Adashboard } from './Adashboard';
+import { OfflineAppointmentForm } from './OfflineAppointmentForm';
+import { AdminPrescriptions } from './AdminPrescriptions';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -68,6 +70,8 @@ export const Admin = () => {
       case 'billing': return <Billing setActivePage={setActivePage} />;
       case 'newbilling': return <Newbilling setActivePage={setActivePage} />;
       case 'editbilling': return <Editbilling setActivePage={setActivePage} />;
+      case 'offlineappointment': return <OfflineAppointmentForm setActivePage={setActivePage} />;
+      case 'prescriptions': return <AdminPrescriptions setActivePage={setActivePage} />;
       default: return <Adashboard doctorCount={doctorCount} patientCount={patientCount} />;
     }
  };
@@ -113,6 +117,16 @@ export const Admin = () => {
          <li>
           <a href="#" onClick={() => setActivePage("billing")}>
             <FontAwesomeIcon icon={faFileInvoiceDollar} /> {isOpen && 'Billing'}
+          </a>
+         </li>
+         <li>
+          <a href="#" onClick={() => setActivePage("offlineappointment")}>
+            <FontAwesomeIcon icon={faNotesMedical} /> {isOpen && 'Offline Appointments'}
+          </a>
+         </li>
+         <li>
+          <a href="#" onClick={() => setActivePage("prescriptions")}>
+            <FontAwesomeIcon icon={faFileInvoiceDollar} /> {isOpen && 'E-Prescriptions'}
           </a>
          </li>
         </ul>
