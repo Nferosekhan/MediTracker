@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const Editmedicalrecord = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Editmedicalrecord = ({ setActivePage }) => {
   const [form, setForm] = useState({
     title: '',
     record_type: '',
@@ -15,7 +15,7 @@ export const Editmedicalrecord = ({ setActivePage }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost/meditracksystem/api/medicalrecords.php?id=${recordId}`)
+      .get(`${BASE_URL}/medicalrecords.php?id=${recordId}`)
       .then((res) => {
         if (res.data && res.data.id) {
           setForm({
@@ -51,7 +51,7 @@ export const Editmedicalrecord = ({ setActivePage }) => {
 
     try {
       const res = await axios.post(
-        'http://localhost/meditracksystem/api/updatemedicalrecord.php',
+        `${BASE_URL}/updatemedicalrecord.php`,
         data
       );
       alert(res.data.message || "Record updated.");

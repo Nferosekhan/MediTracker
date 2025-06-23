@@ -22,7 +22,7 @@ import { AdminPrescriptions } from './AdminPrescriptions';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
-export const Admin = () => {
+import { BASE_URL } from '../config';export const Admin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [doctorCount, setDoctorCount] = useState(0);
@@ -42,7 +42,7 @@ export const Admin = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    axios.get('http://localhost/meditracksystem/api/total_count.php')
+    axios.get(`${BASE_URL}/total_count.php`)
       .then(res => {
         setDoctorCount(res.data.total_doctors);
         setPatientCount(res.data.total_patients);
@@ -80,8 +80,8 @@ export const Admin = () => {
     const token = localStorage.getItem('token');
     const rememberme = localStorage.getItem('rememberme');
     const usertype = localStorage.getItem('usertype');
-    if (!token && rememberme=='0' && usertype!="admin") {
-      navigate('/');
+    if ((!token || token==null) || (rememberme==null || rememberme=='0') || (usertype==null || usertype!="admin")) {
+      navigate('/logout');
     }
     if (location.state?.page) {
       setActivePage(location.state.page);

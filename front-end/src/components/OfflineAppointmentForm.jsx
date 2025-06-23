@@ -4,7 +4,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import moment from "moment";
 
-export const OfflineAppointmentForm = () => {
+import { BASE_URL } from '../config';export const OfflineAppointmentForm = () => {
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
   const [message, setMessage] = useState("");
@@ -20,11 +20,11 @@ export const OfflineAppointmentForm = () => {
   });
 
   useEffect(() => {
-    axios.get("http://localhost/meditracksystem/api/getdoctors.php")
+    axios.get(`${BASE_URL}/getdoctors.php`)
       .then((res) => setDoctors(res.data))
       .catch((err) => console.error("Error loading doctors", err));
 
-    axios.get("http://localhost/meditracksystem/api/patients.php")
+    axios.get(`${BASE_URL}/patients.php`)
       .then((res) => setPatients(res.data))
       .catch((err) => console.error("Error loading patients", err));
   }, []);
@@ -32,7 +32,7 @@ export const OfflineAppointmentForm = () => {
   useEffect(() => {
     if (formData.doctor_id) {
       axios
-        .get(`http://localhost/meditracksystem/api/getschedule.php?doctor_id=${formData.doctor_id}`)
+        .get(`${BASE_URL}/getschedule.php?doctor_id=${formData.doctor_id}`)
         .then((res) => setSchedules(res.data))
         .catch((err) => console.error("Error fetching schedule:", err));
     }
@@ -40,7 +40,7 @@ export const OfflineAppointmentForm = () => {
 
   useEffect(() => {
     if (formData.patient_id) {
-      axios.get(`http://localhost/meditracksystem/api/checkappointment.php?patient_id=${formData.patient_id}`)
+      axios.get(`${BASE_URL}/checkappointment.php?patient_id=${formData.patient_id}`)
         .then((res) => {
           console.log(res.data);
           if (res.data && Array.isArray(res.data.appointment) && res.data.appointment.length > 0) {
@@ -83,7 +83,7 @@ export const OfflineAppointmentForm = () => {
         setAvailableTimes(times);
 
         axios
-          .get(`http://localhost/meditracksystem/api/getbookedslots.php?doctor_id=${formData.doctor_id}&date=${formData.date}`)
+          .get(`${BASE_URL}/getbookedslots.php?doctor_id=${formData.doctor_id}&date=${formData.date}`)
           .then((res) => {
             const booked = res.data.map((slot) => slot.time.substring(0, 5));
             setBookedSlots(booked);
@@ -107,7 +107,7 @@ export const OfflineAppointmentForm = () => {
     };
 
     try {
-      const url = "http://localhost/meditracksystem/api/admin_create_offline_appointment.php";
+      const url = `${BASE_URL}/admin_create_offline_appointment.php`;
 
       const res = await axios.post(url, payload);
 

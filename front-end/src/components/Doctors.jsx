@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
-export const Doctors = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Doctors = ({ setActivePage }) => {
   const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
   const handleEdit = (id) => {
@@ -10,7 +10,7 @@ export const Doctors = ({ setActivePage }) => {
   };
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost/meditracksystem/api/doctors.php");
+      const res = await axios.get(`${BASE_URL}/doctors.php`);
       setDoctors(res.data);
     } catch (err) {
       alert("Error fetching doctors");
@@ -19,7 +19,7 @@ export const Doctors = ({ setActivePage }) => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this doctor?")) {
       try {
-        const res = await axios.post("http://localhost/meditracksystem/api/deletedoctor.php", { id }, { headers: { "Content-Type": "application/json" } });
+        const res = await axios.post(`${BASE_URL}/deletedoctor.php`, { id }, { headers: { "Content-Type": "application/json" } });
         fetchDoctors();
         alert(res.data.message);
       } catch (err) {
@@ -32,7 +32,7 @@ export const Doctors = ({ setActivePage }) => {
     const updatedStatus = currentStatus === 'active' ? 'inactive' : 'active';
     try {
       const res = await axios.post(
-        "http://localhost/meditracksystem/api/updatestatus.php",
+        `${BASE_URL}/updatestatus.php`,
         { id, status: updatedStatus, type: "doctor" },
         { headers: { "Content-Type": "application/json" } }
       );

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-export const Editdoctor = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Editdoctor = ({ setActivePage }) => {
   const [formData, setFormData] = useState({
     name: '', email: '', password: '', specialization: '', degree: '',
     experience_years: '', license_number: '', working_hours: '', hid_profile_pic: ""
@@ -18,7 +18,7 @@ export const Editdoctor = ({ setActivePage }) => {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost/meditracksystem/api/doctors.php?id=${id}`)
+      axios.get(`${BASE_URL}/doctors.php?id=${id}`)
         .then(res => {
           let data = res.data;
           if (data && data.id) {
@@ -40,7 +40,7 @@ export const Editdoctor = ({ setActivePage }) => {
     data.append("id", id);
 
     try {
-      const res = await axios.post('http://localhost/meditracksystem/api/updatedoctor.php', data);
+      const res = await axios.post(`${BASE_URL}/updatedoctor.php`, data);
       if (res.data.message) {
         alert(res.data.message);
         setActivePage("doctors");

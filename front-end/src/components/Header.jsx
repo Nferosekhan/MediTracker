@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
-export const Header = ({ isOpen, toggleSidebar }) => {
+import { BASE_URL } from '../config';export const Header = ({ isOpen, toggleSidebar }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleNavbar = () => {

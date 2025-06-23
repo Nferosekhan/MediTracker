@@ -2,7 +2,7 @@ import reactLogo from '../assets/react.svg'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-solid-svg-icons';
-export const Footer = () => {
+import { BASE_URL } from '../config';export const Footer = () => {
   const year = new Date().getFullYear();
   return (
     <>

@@ -5,7 +5,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import moment from 'moment';
 
-export const Appointment = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Appointment = ({ setActivePage }) => {
   const [doctors, setDoctors] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -35,7 +35,7 @@ export const Appointment = ({ setActivePage }) => {
     }
 
     axios
-      .get("http://localhost/meditracksystem/api/getdoctors.php")
+      .get(`${BASE_URL}/getdoctors.php`)
       .then((res) => setDoctors(res.data))
       .catch((err) => console.error("Error fetching doctors:", err));
   }, []);
@@ -43,7 +43,7 @@ export const Appointment = ({ setActivePage }) => {
   useEffect(() => {
     if (patientId) {
       axios
-        .get(`http://localhost/meditracksystem/api/checkappointment.php?patient_id=${patientId}`)
+        .get(`${BASE_URL}/checkappointment.php?patient_id=${patientId}`)
         .then((res) => {
           console.log("Res", res.data.appointment);
           if (res.data && res.data.appointment) {
@@ -57,7 +57,7 @@ export const Appointment = ({ setActivePage }) => {
   useEffect(() => {
     if (formData.doctor_id) {
       axios
-        .get(`http://localhost/meditracksystem/api/getschedule.php?doctor_id=${formData.doctor_id}`)
+        .get(`${BASE_URL}/getschedule.php?doctor_id=${formData.doctor_id}`)
         .then((res) => setSchedules(res.data))
         .catch((err) => console.error("Error fetching schedule:", err));
     }
@@ -88,7 +88,7 @@ export const Appointment = ({ setActivePage }) => {
       setAvailableTimes(times);
 
       axios
-        .get(`http://localhost/meditracksystem/api/getbookedslots.php?doctor_id=${formData.doctor_id}&date=${formData.date}`)
+        .get(`${BASE_URL}/getbookedslots.php?doctor_id=${formData.doctor_id}&date=${formData.date}`)
         .then((res) => {
           const booked = res.data.map((slot) => slot.time.substring(0, 5));
           setBookedSlots(booked);
@@ -113,7 +113,7 @@ export const Appointment = ({ setActivePage }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost/meditracksystem/api/bookappointment.php",
+        `${BASE_URL}/bookappointment.php`,
         dataToSend
       );
 

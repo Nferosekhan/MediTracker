@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-export const Newmedicalrecord = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Newmedicalrecord = ({ setActivePage }) => {
   const [form, setForm] = useState({
     title: '',
     record_type: '',
@@ -32,7 +32,7 @@ export const Newmedicalrecord = ({ setActivePage }) => {
     if (recordFile) data.append("record_file", recordFile);
 
     try {
-      const res = await axios.post("http://localhost/meditracksystem/api/newmedicalrecord.php", data);
+      const res = await axios.post(`${BASE_URL}/newmedicalrecord.php`, data);
       alert(res.data.message || "Record added.");
       setActivePage("medicalrecords");
     } catch (err) {

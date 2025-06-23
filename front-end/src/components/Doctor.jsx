@@ -9,7 +9,7 @@ import { Schedule } from './Schedule';
 import { Appointments } from './Appointments';
 import { Visitappointment } from './Visitappointment';
 import { useNavigate, useLocation } from 'react-router-dom';
-export const Doctor = () => {
+import { BASE_URL } from '../config';export const Doctor = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activePage, setActivePage] = useState("dashboard");
@@ -46,8 +46,8 @@ export const Doctor = () => {
     const token = localStorage.getItem('token');
     const rememberme = localStorage.getItem('rememberme');
     const usertype = localStorage.getItem('usertype');
-    if (!token && rememberme=='0' && usertype!="doctors") {
-      navigate('/');
+    if ((!token || token==null) || (rememberme==null || rememberme=='0') || (usertype==null || usertype!="doctors")) {
+      navigate('/logout');
     }
     if (location.state?.page) {
       setActivePage(location.state.page);

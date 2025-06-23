@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const AdminPrescriptions = () => {
+import { BASE_URL } from '../config';export const AdminPrescriptions = () => {
   const [prescriptions, setPrescriptions] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost/meditracksystem/api/get_prescriptions.php')
+    axios.get(`${BASE_URL}/get_prescriptions.php`)
       .then(res => setPrescriptions(res.data));
   }, []);
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-export const Editpatient = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage }) => {
   const [formData, setFormData] = useState({
     name: '', dob: '', age: '', gender: '', phone: '', email: '', password: '',
     address: '', blood_group: '', emergency_contact: '', hid_profile_pic: '',
@@ -18,7 +18,7 @@ export const Editpatient = ({ setActivePage }) => {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost/meditracksystem/api/patients.php?id=${id}`)
+      axios.get(`${BASE_URL}/patients.php?id=${id}`)
         .then(res => {
           let data = res.data;
           if (data && data.id) {
@@ -40,7 +40,7 @@ export const Editpatient = ({ setActivePage }) => {
     data.append("id", id);
 
     try {
-      const res = await axios.post('http://localhost/meditracksystem/api/updatepatient.php', data);
+      const res = await axios.post(`${BASE_URL}/updatepatient.php`, data);
       if (res.data.message) {
         alert(res.data.message);
         setActivePage("patients");

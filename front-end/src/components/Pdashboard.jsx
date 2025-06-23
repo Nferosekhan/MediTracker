@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
-export const Pdashboard = () => {
+import { BASE_URL } from '../config';export const Pdashboard = () => {
   const [data, setData] = useState(null);
   const [patientId, setPatientId] = useState(null);
 
@@ -22,7 +22,7 @@ export const Pdashboard = () => {
   // Step 2: Only fetch data once patientId is available
   useEffect(() => {
     if (patientId) {
-      axios.get(`http://localhost/meditracksystem/api/get_patient_dashboard.php?id=${patientId}`)
+      axios.get(`${BASE_URL}/get_patient_dashboard.php?id=${patientId}`)
         .then(res => setData(res.data))
         .catch(err => console.error("Failed to fetch dashboard data:", err));
     }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const Newbilling = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Newbilling = ({ setActivePage }) => {
   const [form, setForm] = useState({
     patient_id: '',
     service_type: '',
@@ -17,7 +17,7 @@ export const Newbilling = ({ setActivePage }) => {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost/meditracksystem/api/patients.php")
+    axios.get(`${BASE_URL}/patients.php`)
       .then(res => setPatients(res.data))
       .catch(() => alert("Failed to fetch patients"));
   }, []);
@@ -38,7 +38,7 @@ export const Newbilling = ({ setActivePage }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost/meditracksystem/api/newbill.php', form, {
+      await axios.post(`${BASE_URL}/newbill.php`, form, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert("Bill added successfully");

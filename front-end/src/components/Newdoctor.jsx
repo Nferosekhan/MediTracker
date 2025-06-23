@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-export const Newdoctor = () => {
+import { BASE_URL } from '../config';export const Newdoctor = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ export const Newdoctor = () => {
     if (profilePic) data.append("profile_pic", profilePic);
 
     try {
-      const res = await axios.post('http://localhost/meditracksystem/api/newdoctor.php', data);
+      const res = await axios.post(`${BASE_URL}/newdoctor.php`, data);
       if(res.data.message=="Doctor created successfully"){
         alert(res.data.message);
         navigate('/admin', { state: { page: 'doctors' } });

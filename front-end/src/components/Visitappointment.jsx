@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export const Visitappointment = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Visitappointment = ({ setActivePage }) => {
   const [appointment, setAppointment] = useState(null);
   const [summary, setSummary] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
@@ -17,7 +17,7 @@ export const Visitappointment = ({ setActivePage }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost/meditracksystem/api/get_appointment_details.php?id=${appointmentId}`)
+      .get(`${BASE_URL}/get_appointment_details.php?id=${appointmentId}`)
       .then((res) => {
         const data = res.data;
         if (!data) return;
@@ -59,7 +59,7 @@ export const Visitappointment = ({ setActivePage }) => {
       status
     };
 
-    const res = await axios.post("http://localhost/meditracksystem/api/save_visit.php", form);
+    const res = await axios.post(`${BASE_URL}/save_visit.php`, form);
     if (res.data.prescription_file) {
       setPrescriptionPath(res.data.prescription_file);
     }

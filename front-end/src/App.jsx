@@ -18,18 +18,12 @@ function App() {
 
   return (
     <>
-      <Router>
+      <Router basename="/meditrack">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/doctor" element={<Doctor />} />
-          <Route path="/newdoctor" element={<Newdoctor />} />
-          <Route path="/editdoctor/:id" element={<Editdoctor />} />
           <Route path="/patient" element={<Patient />} />
-          <Route path="/newpatient" element={<Newpatient />} />
-          <Route path="/editpatient/:id" element={<Editpatient />} />
-          <Route path="/admin/offline-appointment" element={<OfflineAppointmentForm />} />
-          <Route path="/admin/prescriptions" element={<AdminPrescriptions />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </Router>

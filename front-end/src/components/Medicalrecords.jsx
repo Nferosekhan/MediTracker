@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export const Medicalrecords = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Medicalrecords = ({ setActivePage }) => {
   const [records, setRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
 
   const fetchRecords = async () => {
     try {
-      const res = await axios.get("http://localhost/meditracksystem/api/medicalrecords.php");
+      const res = await axios.get(`${BASE_URL}/medicalrecords.php`);
       setRecords(res.data);
     } catch (err) {
       alert("Error fetching records");
@@ -24,7 +24,7 @@ export const Medicalrecords = ({ setActivePage }) => {
     if (window.confirm("Are you sure you want to delete this record?")) {
       try {
         const res = await axios.post(
-          "http://localhost/meditracksystem/api/deletemedicalrecord.php",
+          `${BASE_URL}/deletemedicalrecord.php`,
           { id },
           { headers: { "Content-Type": "application/json" } }
         );

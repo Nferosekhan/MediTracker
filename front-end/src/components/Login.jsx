@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link,useNavigate  } from 'react-router-dom';
 import axios from 'axios';
-export const Login = () => {
+import { BASE_URL } from '../config';export const Login = () => {
 
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ export const Login = () => {
     });
 
     try {
-      const res = await axios.post('http://localhost/meditracksystem/api/login.php', data);
+      const res = await axios.post(`${BASE_URL}/login.php`, data);
       if(res.data.message=="Login successful"){
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('rememberme', res.data.rememberme);
@@ -47,7 +47,7 @@ export const Login = () => {
         }
       }
       else{
-        alert("Something Went Wrong");
+        console.log("Something Went Wrong",res.data.message);
       }
     }
     catch (err) {

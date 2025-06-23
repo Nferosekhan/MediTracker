@@ -10,7 +10,7 @@ import { Previousappointments } from './Previousappointments';
 import { Visitpreviousappointment } from './Visitpreviousappointment';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-export const Patient = () => {
+import { BASE_URL } from '../config';export const Patient = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activePage, setActivePage] = useState("dashboard");
@@ -47,8 +47,8 @@ export const Patient = () => {
     const token = localStorage.getItem('token');
     const rememberme = localStorage.getItem('rememberme');
     const usertype = localStorage.getItem('usertype');
-    if (!token && rememberme=='0' && usertype!="patients") {
-      navigate('/');
+    if ((!token || token==null) || (rememberme==null || rememberme=='0') || (usertype==null || usertype!="patients")) {
+      navigate('/logout');
     }
     if (token) {
       try {

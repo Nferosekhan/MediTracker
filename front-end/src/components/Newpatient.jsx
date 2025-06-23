@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-export const Newpatient = () => {
+import { BASE_URL } from '../config';export const Newpatient = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -35,7 +35,7 @@ export const Newpatient = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost/meditracksystem/api/newpatient.php', data);
+      const res = await axios.post(`${BASE_URL}/newpatient.php`, data);
       if (res.data.message === "Patient created successfully") {
         alert(res.data.message);
         navigate('/admin', { state: { page: 'patients' } });

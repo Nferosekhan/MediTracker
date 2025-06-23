@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from 'moment';
-export const Visitpreviousappointment = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Visitpreviousappointment = ({ setActivePage }) => {
   const [appointment, setAppointment] = useState(null);
 
   const appointmentId = localStorage.getItem("visitappointmentId");
 
   useEffect(() => {
     axios
-      .get(`http://localhost/meditracksystem/api/get_appointment_details.php?id=${appointmentId}`)
+      .get(`${BASE_URL}/get_appointment_details.php?id=${appointmentId}`)
       .then((res) => {
         const data = res.data;
         if (data) {

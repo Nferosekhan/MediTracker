@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-export const Schedule = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Schedule = ({ setActivePage }) => {
   const daysOfWeek = [
     "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
   ];
@@ -20,7 +20,7 @@ export const Schedule = ({ setActivePage }) => {
 
   const fetchSchedule = async (id) => {
     try {
-      const res = await axios.get(`http://localhost/meditracksystem/api/getschedule.php?doctor_id=${id}`);
+      const res = await axios.get(`${BASE_URL}/getschedule.php?doctor_id=${id}`);
       const serverData = res.data;
       const updatedSchedule = daysOfWeek.map(day => {
         const match = serverData.find(s => s.day === day.toLowerCase());
@@ -74,7 +74,7 @@ export const Schedule = ({ setActivePage }) => {
           end_time: slot.endTime,
           max_patients: slot.maxPatients || 0
         }));
-      await axios.post("http://localhost/meditracksystem/api/updateschedule.php", dataToSave, {
+      await axios.post(`${BASE_URL}/updateschedule.php`, dataToSave, {
         headers: { "Content-Type": "application/json" }
       });
       alert("Schedule updated successfully");

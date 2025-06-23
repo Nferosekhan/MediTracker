@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export const Appointments = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Appointments = ({ setActivePage }) => {
   const [appointments, setAppointments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const appointmentsPerPage = 5;
 
   const fetchAppointments = async () => {
     try {
-      const res = await axios.get("http://localhost/meditracksystem/api/appointments.php");
+      const res = await axios.get(`${BASE_URL}/appointments.php`);
       setAppointments(res.data);
     }
     catch (err) {

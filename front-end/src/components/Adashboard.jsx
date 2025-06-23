@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGauge } from '@fortawesome/free-solid-svg-icons';
-export const Adashboard = ({doctorCount, patientCount}) => {
+import { BASE_URL } from '../config';export const Adashboard = ({doctorCount, patientCount}) => {
   return (
     <>
       <div className="dashboard-container">

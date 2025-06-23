@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from 'moment';
-export const Previousappointments = ({ setActivePage, patientId }) => {
+import { BASE_URL } from '../config';export const Previousappointments = ({ setActivePage, patientId }) => {
   const [appointments, setAppointments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const appointmentsPerPage = 5;
 
   const fetchAppointments = async () => {
     try {
-      const res = await axios.get(`http://localhost/meditracksystem/api/previousappointments.php?patient_id=${patientId}`);
+      const res = await axios.get(`${BASE_URL}/previousappointments.php?patient_id=${patientId}`);
       setAppointments(res.data);
     }
     catch (err) {

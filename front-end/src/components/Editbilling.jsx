@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const Editbilling = ({ setActivePage }) => {
+import { BASE_URL } from '../config';export const Editbilling = ({ setActivePage }) => {
   const [form, setForm] = useState({
     patient_id: '',
     service_type: '',
@@ -18,11 +18,11 @@ export const Editbilling = ({ setActivePage }) => {
   const billingId = localStorage.getItem("editBillingId");
 
   useEffect(() => {
-    axios.get(`http://localhost/meditracksystem/api/bills.php?id=${billingId}`)
+    axios.get(`${BASE_URL}/bills.php?id=${billingId}`)
       .then(res => setForm(res.data))
       .catch(err => alert("Failed to fetch billing details"));
 
-    axios.get("http://localhost/meditracksystem/api/patients.php")
+    axios.get(`${BASE_URL}/patients.php`)
       .then(res => setPatients(res.data))
       .catch(err => alert("Failed to fetch patients"));
   }, [billingId]);
@@ -43,7 +43,7 @@ export const Editbilling = ({ setActivePage }) => {
     e.preventDefault();
     try {
       form.idval = billingId;
-      const res = await axios.post('http://localhost/meditracksystem/api/updatebill.php', form);
+      const res = await axios.post(`${BASE_URL}/updatebill.php`, form);
       alert('Bill updated successfully');
       setActivePage("billing");
     } catch (err) {
