@@ -1,45 +1,56 @@
 # 🩺 MediTracker – Health Record & Appointment System
+
 ## 🔗 Live Demo
-
-Coming Soon...
-
----
-
-## 📘 Project Description
-
-**MediTracker** is a web-based health monitoring system built for doctors, patients, and admins to track and manage healthcare efficiently. It handles everything from appointment booking and vitals tracking to prescription uploads and billing, with automated reminders via SMS, email, or WhatsApp.
+**Coming Soon...**
 
 ---
 
-## ✨ Features
+## 📘 Project Overview
 
-- 🧑‍💼 **Patient Panel**
-- 
-  - Register and manage profile
-  - Book doctor appointments
-  - View vitals and prescription history
-  - Upload medical reports and lab results
-  - Receive reminders for medicines, tests, and checkups
+**MediTracker** is a full-stack, web-based healthcare management system designed to simplify and streamline medical services for **patients**, **doctors**, and **administrators**. It offers an all-in-one platform for scheduling appointments, tracking medical records, issuing prescriptions, and automating reminders using SMS, Email, or WhatsApp.
 
-- 👨‍⚕️ **Doctor Dashboard**
-- 
-  - View assigned patients and appointments
-  - Update vitals and diagnosis
-  - Upload prescription files
-  - Access patient medical records
+Whether you're a patient managing your health, a doctor tracking patient history, or an admin organizing medical operations, **MediTracker** is built to make healthcare easier, faster, and more efficient.
 
-- 🛠️ **Admin Panel**
-- 
-  - Manage all users (patients, doctors, staff)
-  - Handle appointments and doctor schedules
-  - View billing and payment status
-  - Set up automated reminder methods (SMS, Email, WhatsApp)
+---
+
+## ✨ Core Features
+
+### 🧑‍💼 Patient Panel
+- ✅ Patient registration and profile management
+- 📅 Book and manage doctor appointments
+- 📊 View and track vitals and diagnosis history
+- 📁 Upload and manage lab reports and medical documents
+- 🔔 Get reminders for:
+  - Medications
+  - Checkups
+  - Diagnostic tests (via SMS, Email, or WhatsApp)
+
+---
+
+### 👨‍⚕️ Doctor Dashboard
+- 👥 View assigned patients and upcoming appointments
+- 🩺 Record/update patient vitals and diagnosis
+- 💊 Upload prescriptions and treatment notes
+- 📂 Access complete patient medical records
+
+---
+
+### 🛠️ Admin Panel
+- 👤 Manage user accounts (patients, doctors, staff)
+- 📆 Schedule and monitor appointments and availability
+- 💳 Manage billing and payment tracking
+- 🔧 Configure automated notification methods (SMS/Email/WhatsApp)
+- 📈 Monitor system usage and activity logs
 
 ---
 
 ## 🧰 Tech Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript, React.Js, Bootstrap
-- **Backend**: PHP
-- **Database**: MySQL
-- **Server**: Apache (XAMPP)
+| Layer       | Technology                       |
+|-------------|----------------------------------|
+| **Frontend**| HTML5, CSS3, JavaScript, React.js, Bootstrap |
+| **Backend** | PHP (Procedural/OOP)             |
+| **Database**| MySQL                            |
+| **Server**  | Apache (XAMPP recommended for local dev) |
+
+---
