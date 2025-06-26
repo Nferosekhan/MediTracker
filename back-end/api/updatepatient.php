@@ -22,6 +22,7 @@ if ($_POST['id'] > 0) {
     }
 
     $id = (int)$_POST['id'];
+    $doctor_id = htmlspecialchars($_POST['doctor_id'], ENT_QUOTES, 'utf-8');
     $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8');
     $dob = htmlspecialchars($_POST['dob'], ENT_QUOTES, 'utf-8');
     $age = htmlspecialchars($_POST['age'], ENT_QUOTES, 'utf-8');
@@ -74,6 +75,9 @@ if ($_POST['id'] > 0) {
                 $insertVitals->execute();
                 $insertVitals->close();
             }
+            $hisStmt = $con->prepare("INSERT INTO patient_history (doctor_id, patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $hisStmt->bind_param("iisssssssss", $doctor_id, $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
+            $hisStmt->execute();
 
             echo json_encode(["status" => true, "message" => "Patient Updated Successfully"]);
         } else {

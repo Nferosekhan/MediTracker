@@ -11,18 +11,19 @@ if($_POST['username']!="" && $_POST['password']!=""){
 	$password = htmlspecialchars($_POST['password'],ENT_QUOTES,'utf-8');
 	$usertype = htmlspecialchars($_POST['usertype'],ENT_QUOTES,'utf-8');
 	$rememberme = htmlspecialchars($_POST['rememberme'],ENT_QUOTES,'utf-8');
-	$selstoredpass = $con->prepare("SELECT id,email,password FROM $usertype WHERE email = ?");
+	$selstoredpass = $con->prepare("SELECT id,email,password,name FROM $usertype WHERE email = ?");
 	$selstoredpass->bind_param("s", $username);
 	$selstoredpass->execute();
 	$selstoredpass->store_result();
 	if($selstoredpass->num_rows>0){
-		$selstoredpass->bind_result($id,$email,$hashed_password);
+		$selstoredpass->bind_result($id,$email,$hashed_password,$name);
     	$selstoredpass->fetch();
 		if(password_verify($password, $hashed_password)){
 			$payload = array(
             "id" => $id,
             "email" => $email,
             "usertype" => $usertype,
+            "name" => $name,
             "iat" => time(),
             "exp" => time() + (60 * 60 * 24)
          );

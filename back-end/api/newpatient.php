@@ -20,6 +20,7 @@ if ($_POST['email'] != "") {
         }
     }
 
+    $doctor_id = htmlspecialchars($_POST['doctor_id'], ENT_QUOTES, 'utf-8');
     $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8');
     $dob = htmlspecialchars($_POST['dob'], ENT_QUOTES, 'utf-8');
     $age = htmlspecialchars($_POST['age'], ENT_QUOTES, 'utf-8');
@@ -53,22 +54,30 @@ if ($_POST['email'] != "") {
             $temperature = $_POST['temperature'] ?? '';
             $bmi = $_POST['bmi'] ?? '';
 
-            $vitalStmt = $con->prepare("INSERT INTO vitals (patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $vitalStmt = $con->prepare("INSERT INTO vitals (patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $vitalStmt->bind_param("isssssssss", $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
-            $vitalStmt->execute();
-            $vitalStmt->close();
-
-            echo json_encode(["status" => true, "message" => "Patient created successfully"]);
-        } else {
+            if($vitalStmt->execute()){
+                $hisStmt = $con->prepare("INSERT INTO patient_history (doctor_id, patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $hisStmt->bind_param("iisssssssss", $doctor_id, $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
+                $hisStmt->execute();
+                echo json_encode(["status" => true, "message" => "Patient created successfully"]);
+            }
+            else{
+                echo json_encode(["status" => false, "message" => "Something went wrong"]);
+            }
+        }
+        else {
             echo json_encode(["status" => false, "message" => "Something went wrong"]);
         }
         $ins->close();
-    } else {
+    }
+    else {
         echo json_encode(["status" => false, "message" => "Email already exists"]);
     }
 
     $selstoredpass->close();
-} else {
+}
+else {
     echo json_encode(["status" => false, "message" => "Invalid Attempt"]);
 }
 
