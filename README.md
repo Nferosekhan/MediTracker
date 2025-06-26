@@ -1,7 +1,7 @@
 # 🩺 MediTracker – Health Record & Appointment System
 
 ## 🔗 Live Demo
-**Coming Soon...**
+**Private Project...**
 
 ---
 
