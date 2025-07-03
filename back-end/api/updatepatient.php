@@ -41,6 +41,8 @@ if ($_POST['id'] > 0) {
     $heart_rate = $_POST['heart_rate'] ?? '';
     $temperature = $_POST['temperature'] ?? '';
     $bmi = $_POST['bmi'] ?? '';
+    $bmi_status = htmlspecialchars($_POST['bmi_status'], ENT_QUOTES, 'utf-8');
+    $bmi_suggestion = htmlspecialchars($_POST['bmi_suggestion'], ENT_QUOTES, 'utf-8');
 
     $check = $con->prepare("SELECT id FROM patients WHERE id = ?");
     $check->bind_param("i", $id);
@@ -61,22 +63,21 @@ if ($_POST['id'] > 0) {
             if ($vitalResult->num_rows > 0) {
                 $updateVitals = $con->prepare("UPDATE vitals SET 
                     blood_presure_systolic=?, blood_presure_diastolic=?, sugar_fasting_level=?,
-                    sugar_postprandial_level=?, weight=?, height=?, heart_rate=?, temperature=?, bmi=? 
-                    WHERE patient_id = ?");
-                $updateVitals->bind_param("sssssssssi", $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $id);
+                    sugar_postprandial_level=?, weight=?, height=?, heart_rate=?, temperature=?, bmi=?, bmi_status=?, bmi_suggestion=? WHERE patient_id = ?");
+                $updateVitals->bind_param("sssssssssssi", $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $bmi_status, $bmi_suggestion, $id);
                 $updateVitals->execute();
                 $updateVitals->close();
             } else {
                 $insertVitals = $con->prepare("INSERT INTO vitals (
                     patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level,
-                    sugar_postprandial_level, weight, height, heart_rate, temperature, bmi
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $insertVitals->bind_param("isssssssss", $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
+                    sugar_postprandial_level, weight, height, heart_rate, temperature, bmi, bmi_status, bmi_suggestion
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $insertVitals->bind_param("isssssssssss", $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $bmi_status, $bmi_suggestion);
                 $insertVitals->execute();
                 $insertVitals->close();
             }
-            $hisStmt = $con->prepare("INSERT INTO patient_history (doctor_id, patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $hisStmt->bind_param("iisssssssss", $doctor_id, $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
+            $hisStmt = $con->prepare("INSERT INTO patient_history (doctor_id, patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi, bmi_status, bmi_suggestion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $hisStmt->bind_param("iisssssssssss", $doctor_id, $id, $bp_sys, $bp_dia, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $bmi_status, $bmi_suggestion);
             $hisStmt->execute();
 
             echo json_encode(["status" => true, "message" => "Patient Updated Successfully"]);

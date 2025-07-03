@@ -53,12 +53,14 @@ if ($_POST['email'] != "") {
             $heart_rate = $_POST['heart_rate'] ?? '';
             $temperature = $_POST['temperature'] ?? '';
             $bmi = $_POST['bmi'] ?? '';
+            $bmi_status = htmlspecialchars($_POST['bmi_status'], ENT_QUOTES, 'utf-8');
+            $bmi_suggestion = htmlspecialchars($_POST['bmi_suggestion'], ENT_QUOTES, 'utf-8');
 
-            $vitalStmt = $con->prepare("INSERT INTO vitals (patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $vitalStmt->bind_param("isssssssss", $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
+            $vitalStmt = $con->prepare("INSERT INTO vitals (patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi, bmi_status, bmi_suggestion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $vitalStmt->bind_param("isssssssssss", $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $bmi_status, $bmi_suggestion);
             if($vitalStmt->execute()){
-                $hisStmt = $con->prepare("INSERT INTO patient_history (doctor_id, patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $hisStmt->bind_param("iisssssssss", $doctor_id, $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi);
+                $hisStmt = $con->prepare("INSERT INTO patient_history (doctor_id, patient_id, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, weight, height, heart_rate, temperature, bmi, bmi_status, bmi_suggestion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $hisStmt->bind_param("iisssssssssss", $doctor_id, $patient_id, $bp_systolic, $bp_diastolic, $sugar_fasting, $sugar_post, $weight, $height, $heart_rate, $temperature, $bmi, $bmi_status, $bmi_suggestion);
                 $hisStmt->execute();
                 echo json_encode(["status" => true, "message" => "Patient created successfully"]);
             }

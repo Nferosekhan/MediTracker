@@ -13,7 +13,7 @@ $pstmt->execute();
 $presult = $pstmt->get_result()->fetch_assoc();
 $response['profile'] = $presult;
 
-$vstmt = $con->prepare("SELECT weight, height, bmi, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, heart_rate, temperature FROM vitals WHERE patient_id = ? ORDER BY date_of_entry DESC LIMIT 1");
+$vstmt = $con->prepare("SELECT weight, height, bmi, blood_presure_systolic, blood_presure_diastolic, sugar_fasting_level, sugar_postprandial_level, heart_rate, temperature, bmi_status, bmi_suggestion FROM vitals WHERE patient_id = ? ORDER BY date_of_entry DESC LIMIT 1");
 $vstmt->bind_param("i", $patient_id);
 $vstmt->execute();
 $vresult = $vstmt->get_result()->fetch_assoc();

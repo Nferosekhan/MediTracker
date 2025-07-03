@@ -11,7 +11,7 @@ if($_POST['username']!="" && $_POST['password']!=""){
 	$password = htmlspecialchars($_POST['password'],ENT_QUOTES,'utf-8');
 	$usertype = htmlspecialchars($_POST['usertype'],ENT_QUOTES,'utf-8');
 	$rememberme = htmlspecialchars($_POST['rememberme'],ENT_QUOTES,'utf-8');
-	$selstoredpass = $con->prepare("SELECT id,email,password,name FROM $usertype WHERE email = ?");
+	$selstoredpass = $con->prepare("SELECT id,email,password,name FROM $usertype WHERE email = ? AND status = 'active'");
 	$selstoredpass->bind_param("s", $username);
 	$selstoredpass->execute();
 	$selstoredpass->store_result();
@@ -37,7 +37,7 @@ if($_POST['username']!="" && $_POST['password']!=""){
 		}
 	}
 	else{
-		echo json_encode(["status" => false, "message" => "Invalid Username"]);
+		echo json_encode(["status" => false, "message" => "Invalid Username Or User Deactivated"]);
 	}
 	$selstoredpass->close();
 }
