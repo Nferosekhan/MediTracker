@@ -140,7 +140,7 @@ import { BASE_URL } from '../config';export const Editdoctor = ({ setActivePage 
             <label htmlFor="profile_pic" className="form-label">Profile Pic : </label>
           </div>
           <div className="col-lg-6">
-            <input type="file" className="form-control" id="profile_pic" name="profile_pic" onChange={handleFileChange} />
+            <input type="file" accept="image/*" className="form-control" id="profile_pic" name="profile_pic" onChange={handleFileChange} />
             <input type="hidden" name="hid_profile_pic" value={formData.hid_profile_pic || ""} onChange={handleChange} />
           </div>
         </div>

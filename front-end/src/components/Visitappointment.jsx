@@ -86,7 +86,7 @@ import { BASE_URL } from '../config';export const Visitappointment = ({ setActiv
         {prescriptionPath && (
           <div className="mb-3">
             <label>Generated Prescription</label><br />
-            <a href={`http://localhost/meditracksystem/uploads/prescriptions/${prescriptionPath}`} target="_blank" rel="noopener noreferrer">
+            <a href={`${window.location.hostname === "localhost" ? "http://localhost/meditracksystem/uploads" : "http://dctcontrichy.com/meditrack/uploads"}/prescriptions/${prescriptionPath}`} target="_blank" rel="noopener noreferrer">
               View PDF
             </a>
           </div>

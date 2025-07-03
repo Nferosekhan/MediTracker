@@ -8,6 +8,10 @@ import { BASE_URL } from '../config';export const Patients = ({ setActivePage })
     localStorage.setItem("editPatientId", id);
     setActivePage("editpatient");
   };
+  const handleHistory = (name) => {
+    localStorage.setItem("editPatientName", name);
+    setActivePage("patienthistory");
+  };
   const handleAddRecords = (id) => {
     localStorage.setItem("addNewRecord", id);
     setActivePage("newmedicalrecord");
@@ -114,6 +118,10 @@ import { BASE_URL } from '../config';export const Patients = ({ setActivePage })
                     &nbsp;
                     <button className="btn m-1 btn-info" onClick={() => handleAddRecords(patient.id)}>
                       Add Records
+                    </button>
+                    &nbsp;
+                    <button className="btn m-1 btn-info" onClick={() => handleHistory(patient.name)}>
+                      History
                     </button>
                     &nbsp;
                     <button className={`btn m-1 ${patient.status === 'active' ? 'btn-warning' : 'btn-success'}`} onClick={() => handleStatusToggle(patient.id, patient.status)}>

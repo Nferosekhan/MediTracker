@@ -155,7 +155,7 @@ import { BASE_URL } from '../config';export const Appointment = ({ setActivePage
         }
       } else {
         alert(res.data.message || "Booking failed.");
-        setActivePage("appoinment");
+        setActivePage("dashboard");
       }
     } catch (err) {
       console.error(err);

@@ -47,14 +47,16 @@ import { BASE_URL } from '../config';export const Pdashboard = () => {
         <div className="col-12">
           <div className="p-3">
             <h5>🩺 Vitals Overview</h5>
-            <p><strong>Weight:</strong> {vitals?.weight || 'N/A'}</p>
-            <p><strong>Height:</strong> {vitals?.height || 'N/A'}</p>
-            <p><strong>BMI:</strong> {vitals?.bmi || 'N/A'}</p>
             <p><strong>Blood Pressure:</strong> {vitals?.blood_presure_systolic}/{vitals?.blood_presure_diastolic}</p>
             <p><strong>Sugar (Fasting):</strong> {vitals?.sugar_fasting_level}</p>
             <p><strong>Sugar (Post):</strong> {vitals?.sugar_postprandial_level}</p>
             <p><strong>Heart Rate:</strong> {vitals?.heart_rate} bpm</p>
             <p><strong>Temperature:</strong> {vitals?.temperature} °F</p>
+            <p><strong>Weight:</strong> {vitals?.weight || 'N/A'}</p>
+            <p><strong>Height:</strong> {vitals?.height || 'N/A'}</p>
+            <p><strong>BMI:</strong> {vitals?.bmi || 'N/A'}</p>
+            <p><strong>Status:</strong> {vitals?.bmi_status || 'N/A'}</p>
+            <p><strong>Suggestion:</strong> {vitals?.bmi_suggestion || 'N/A'}</p>
           </div>
         </div>
       </div>

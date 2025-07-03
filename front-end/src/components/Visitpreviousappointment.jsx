@@ -38,7 +38,7 @@ import { BASE_URL } from '../config';export const Visitpreviousappointment = ({ 
         {appointment.prescription_file ? (
           <>
             <p className="text-muted">File: {appointment.prescription_file}</p>
-            <a className="btn btn-primary" href={`http://localhost/meditracksystem/uploads/prescriptions/${appointment.prescription_file}`} download={appointment.prescription_file} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-primary" href={`${window.location.hostname === "localhost" ? "http://localhost/meditracksystem/uploads" : "http://dctcontrichy.com/meditrack/uploads"}/prescriptions/${appointment.prescription_file}`} download={appointment.prescription_file} target="_blank" rel="noopener noreferrer">
               Download Prescription
             </a>
           </>

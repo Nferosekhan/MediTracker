@@ -9,6 +9,7 @@ import { Schedule } from './Schedule';
 import { Appointments } from './Appointments';
 import { Visitappointment } from './Visitappointment';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import { BASE_URL } from '../config';export const Doctor = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,10 +39,10 @@ import { BASE_URL } from '../config';export const Doctor = () => {
       case 'schedule': return <Schedule setActivePage={setActivePage} />;
       case 'appoinments': return <Appointments setActivePage={setActivePage} />;
       case 'visit': return <Visitappointment setActivePage={setActivePage} />;
-      default: return <Ddashboard />;
+      default: return <Ddashboard doctorId={doctorId} />;
     }
  };
-
+ const [doctorId, setDoctorId] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem('token');
     const rememberme = localStorage.getItem('rememberme');
@@ -49,10 +50,25 @@ import { BASE_URL } from '../config';export const Doctor = () => {
     if ((!token || token==null) || (rememberme==null || rememberme=='0') || (usertype==null || usertype!="doctors")) {
       navigate('/logout');
     }
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const id = decoded.id;
+        setDoctorId(id);
+      } catch (err) {
+        console.error("Invalid token", err);
+      }
+    }
     if (location.state?.page) {
       setActivePage(location.state.page);
     }
+     const timer = setTimeout(() => {
+      setShowContent(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [location.state]);
+  const [showContent, setShowContent] = useState(false);
   return (
     <>
       <Header isOpen={isOpen} toggleSidebar={toggleSidebar} />
@@ -79,7 +95,7 @@ import { BASE_URL } from '../config';export const Doctor = () => {
         <div className="content">
           {/*Main*/}
           <main className="card card-body">
-            {renderContent()}
+            {showContent ? renderContent() : <p className="text-center">Loading content...</p>}
           </main>
           {/*Main*/}
         </div>

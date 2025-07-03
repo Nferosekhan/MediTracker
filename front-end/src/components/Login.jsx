@@ -36,6 +36,7 @@ import { BASE_URL } from '../config';export const Login = () => {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('rememberme', res.data.rememberme);
         localStorage.setItem('usertype', res.data.usertype);
+        localStorage.setItem('name', res.data.name);
         if(res.data.usertype=="admin"){
           navigate('/admin');
         }
@@ -47,7 +48,7 @@ import { BASE_URL } from '../config';export const Login = () => {
         }
       }
       else{
-        console.log("Something Went Wrong",res.data.message);
+        alert(res.data.message);
       }
     }
     catch (err) {

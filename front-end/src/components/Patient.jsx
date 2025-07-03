@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faGauge, faCalendarAlt, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faGauge, faCalendarAlt, faCalendarCheck, faFileMedical } from '@fortawesome/free-solid-svg-icons';
 import {Header} from './Header';
 import {Footer} from './Footer';
 import { Pdashboard } from './Pdashboard';
 import { Appointment } from './Appointment';
+import { History } from './History';
 import { Previousappointments } from './Previousappointments';
 import { Visitpreviousappointment } from './Visitpreviousappointment';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -37,6 +38,7 @@ import { BASE_URL } from '../config';export const Patient = () => {
   const renderContent = () => {
     switch (activePage) {
       case 'appoinment': return <Appointment setActivePage={setActivePage} />;
+      case 'history': return <History setActivePage={setActivePage} />;
       case 'visitpreviousappointment': return <Visitpreviousappointment setActivePage={setActivePage} />;
       case 'previousappointments': return <Previousappointments setActivePage={setActivePage} patientId={patientId} />;
       default: return <Pdashboard />;
@@ -82,6 +84,11 @@ import { BASE_URL } from '../config';export const Patient = () => {
            <li>
             <a href="#" onClick={() => setActivePage("appoinment")}>
               <FontAwesomeIcon icon={faCalendarAlt} /> {isOpen && 'Appoinment'}
+            </a>
+           </li>
+           <li>
+            <a href="#" onClick={() => setActivePage("history")}>
+              <FontAwesomeIcon icon={faFileMedical} /> {isOpen && 'History'}
             </a>
            </li>
           </ul>

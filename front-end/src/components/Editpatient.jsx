@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { jwtDecode } from "jwt-decode";
 
 import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage }) => {
   const [formData, setFormData] = useState({
     name: '', dob: '', age: '', gender: '', phone: '', email: '', password: '',
     address: '', blood_group: '', emergency_contact: '', hid_profile_pic: '',
     blood_presure_systolic: '', blood_presure_diastolic: '', sugar_fasting_level: '',
-    sugar_postprandial_level: '', weight: '', height: '', heart_rate: '', temperature: '', bmi: ''
+    sugar_postprandial_level: '', weight: '', height: '', heart_rate: '', temperature: '', bmi: '', bmi_status: '', bmi_suggestion: ''
   });
 
   const [profilePic, setProfilePic] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [doctorId, setDoctorId] = useState('');
   const toggleVisibility = () => setShowPassword(!showPassword);
   const id = localStorage.getItem("editPatientId");
 
@@ -24,6 +26,17 @@ import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage
           if (data && data.id) {
             data.hid_profile_pic = data.profile_pic;
             setFormData(data);
+            const token = localStorage.getItem('token');
+            if (token) {
+              try {
+                const decoded = jwtDecode(token);
+                const id = decoded.id;
+                setDoctorId(id);
+              }
+              catch (err) {
+                console.error("Invalid token", err);
+              }
+            }
           } else {
             alert("Patient not found");
           }
@@ -38,6 +51,7 @@ import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage
     Object.entries(formData).forEach(([key, val]) => data.append(key, val));
     if (profilePic) data.append("profile_pic", profilePic);
     data.append("id", id);
+    data.append('doctor_id', doctorId);
 
     try {
       const res = await axios.post(`${BASE_URL}/updatepatient.php`, data);
@@ -52,10 +66,84 @@ import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    let updatedData = { ...formData, [name]: value };
+    if (name === 'dob') {
+        const birthDate = new Date(value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        updatedData.age = age >= 0 ? age : '';
+      }
+      if (name === 'weight' || name === 'height') {
+        const weight = parseFloat(name === 'weight' ? value : updatedData.weight);
+        const heightCm = parseFloat(name === 'height' ? value : updatedData.height);
+
+        if (!isNaN(weight) && !isNaN(heightCm) && heightCm > 0) {
+          const heightM = heightCm / 100;
+          const bmi = (weight / (heightM * heightM)).toFixed(2);
+          updatedData.bmi = bmi;
+
+          let bmiStatus = '';
+          let suggestion = '';
+
+          const bmiVal = parseFloat(bmi);
+          if (bmiVal < 18.5) {
+            bmiStatus = 'Underweight';
+            suggestion = 'Eat healthy, build strength 💪';
+          }
+          else if (bmiVal < 24.9) {
+            bmiStatus = 'Normal';
+            suggestion = 'Great job! Maintain your fitness ✅';
+          }
+          else if (bmiVal < 29.9) {
+            bmiStatus = 'Overweight';
+            suggestion = 'Consider light workouts and healthy eating 🍎';
+          }
+          else {
+            bmiStatus = 'Obese';
+            suggestion = 'Focus on fitness and consult a nutritionist 🏥';
+          }
+
+          updatedData.bmi_status = bmiStatus;
+          updatedData.bmi_suggestion = suggestion;
+        }
+        else {
+          updatedData.bmi = '';
+          updatedData.bmi_status = '';
+          updatedData.bmi_suggestion = '';
+        }
+      }
+      setFormData(updatedData);
+    };
 
   const handleFileChange = (e) => setProfilePic(e.target.files[0]);
+
+  const fields = [
+    { field: 'blood_presure_systolic', label: 'Blood Pressure Systolic' },
+    { field: 'blood_presure_diastolic', label: 'Blood Pressure Diastolic' },
+    { field: 'sugar_fasting_level', label: 'Sugar Fasting Level' },
+    { field: 'sugar_postprandial_level', label: 'Sugar Postprandial Level' },
+    { field: 'weight', label: 'Weight' },
+    { field: 'height', label: 'Height' },
+    { field: 'heart_rate', label: 'Heart Rate' },
+    { field: 'temperature', label: 'Temperature' },
+    { field: 'bmi', label: 'BMI', readOnly: true }
+  ];
+
+  const units = {
+    blood_presure_systolic: 'mmHg',
+    blood_presure_diastolic: 'mmHg',
+    sugar_fasting_level: 'mg/dL',
+    sugar_postprandial_level: 'mg/dL',
+    weight: 'kg',
+    height: 'cm',
+    heart_rate: 'bpm',
+    temperature: '°F',
+    bmi: 'kg/m²'
+  };
 
   return (
     <>
@@ -82,7 +170,7 @@ import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage
             <label htmlFor="age" className="form-label">Age : </label>
           </div>
           <div className="col-lg-6">
-            <input type="number" className="form-control" placeholder="Enter The Age" id="age" name="age" required onChange={handleChange} value={formData.age} />
+            <input type="number" className="form-control" placeholder="Enter The Age" id="age" name="age" required onChange={handleChange} value={formData.age} readOnly={true} />
           </div>
         </div>
         <div className="row m-3">
@@ -161,32 +249,32 @@ import { BASE_URL } from '../config';export const Editpatient = ({ setActivePage
             <label htmlFor="profile_pic" className="form-label">Profile Pic : </label>
           </div>
           <div className="col-lg-6">
-            <input type="file" className="form-control" id="profile_pic" name="profile_pic" onChange={handleFileChange} />
+            <input type="file" accept="image/*" className="form-control" id="profile_pic" name="profile_pic" onChange={handleFileChange} />
             <input type="hidden" name="hid_profile_pic" value={formData.hid_profile_pic || ""} onChange={handleChange} />
           </div>
         </div>
         <hr />
         <h4>Vitals</h4>
-        {[
-          ['blood_presure_systolic', 'Blood Pressure Systolic'],
-          ['blood_presure_diastolic', 'Blood Pressure Diastolic'],
-          ['sugar_fasting_level', 'Sugar Fasting Level'],
-          ['sugar_postprandial_level', 'Sugar Postprandial Level'],
-          ['weight', 'Weight'],
-          ['height', 'Height'],
-          ['heart_rate', 'Heart Rate'],
-          ['temperature', 'Temperature'],
-          ['bmi', 'BMI'],
-        ].map(([field, label]) => (
+        {fields.map(({ field, label, readOnly }) => (
           <div className="row m-3" key={field}>
             <div className="col-lg-6">
-              <label htmlFor={field} className="form-label">{label} :</label>
+              <label htmlFor={field} className="form-label">{label}:</label>
             </div>
             <div className="col-lg-6">
-              <input type="text" className="form-control" placeholder={`Enter ${label}`} id={field} name={field} value={formData[field]} onChange={handleChange} />
+              <div className="input-group">
+                <input type="number" step="any" className="form-control" placeholder={`Enter ${label}`} id={field} name={field} value={formData[field]} onChange={handleChange} readOnly={readOnly}/>
+                <span className="input-group-text">{units[field]}</span>
+              </div>
             </div>
           </div>
         ))}
+
+        {formData.bmi_status && (
+          <div className="mt-2" style={{textAlign:"center",color: formData.bmi_status === 'Underweight' ? '#f39c12' : formData.bmi_status === 'Normal' ? '#28a745' : formData.bmi_status === 'Overweight' ? '#ffc107' : '#dc3545'}}>
+            <strong>Status:</strong> {formData.bmi_status}<br />
+            <small>{formData.bmi_suggestion}</small>
+          </div>
+        )}
 
         <div className="row m-3 justify-content-center">
           <button className="btn btn-info" style={{ width: "max-content" }}>Update</button>

@@ -129,7 +129,7 @@ import { BASE_URL } from '../config';export const Newdoctor = () => {
             <label htmlFor="profile_pic" className="form-label">Profile Pic : </label>
           </div>
           <div className="col-lg-6">
-            <input type="file" className="form-control" id="profile_pic" name="profile_pic" required onChange={handleFileChange} />
+            <input type="file" accept="image/*" className="form-control" id="profile_pic" name="profile_pic" onChange={handleFileChange} />
           </div>
         </div>
         <div className="row m-3 justify-content-center">

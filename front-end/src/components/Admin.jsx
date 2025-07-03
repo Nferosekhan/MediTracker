@@ -10,6 +10,7 @@ import { Editdoctor } from './Editdoctor';
 import { Patients } from './Patients';
 import { Newpatient } from './Newpatient';
 import { Editpatient } from './Editpatient';
+import { Patienthistory } from './Patienthistory';
 import { Medicalrecords } from './Medicalrecords';
 import { Newmedicalrecord } from './Newmedicalrecord';
 import { Editmedicalrecord } from './Editmedicalrecord';
@@ -64,6 +65,7 @@ import { BASE_URL } from '../config';export const Admin = () => {
       case 'patients': return <Patients setActivePage={setActivePage} />;
       case 'newpatient': return <Newpatient setActivePage={setActivePage} />;
       case 'editpatient': return <Editpatient setActivePage={setActivePage} />;
+      case 'patienthistory': return <Patienthistory setActivePage={setActivePage} />;
       case 'medicalrecords': return <Medicalrecords setActivePage={setActivePage} />;
       case 'newmedicalrecord': return <Newmedicalrecord setActivePage={setActivePage} />;
       case 'editmedicalrecord': return <Editmedicalrecord setActivePage={setActivePage} />;
