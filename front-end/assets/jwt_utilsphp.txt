@@ -1,0 +1,11 @@
+<?php
+require_once '../vendor/autoload.php';
+function generate_jwt($payload){
+    $secret_key = 'basics';
+    return Firebase\JWT\JWT::encode($payload,$secret_key,'HS256');
+}
+function verify_jwt($token){
+    $secret_key = 'basics';
+    return Firebase\JWT\JWT::decode($token,new Firebase\JWT\Key($secret_key,'HS256'));
+}
+?>

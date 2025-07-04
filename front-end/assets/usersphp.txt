@@ -1,0 +1,38 @@
+<?php
+require 'jwt_utils.php';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type,Authorization");
+header("Access-Control-Allow-Methods: GET,OPTIONS");
+header("Content-Type: application/json");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+$headers = getallheaders();
+$authHeader = $headers['Authorization'] ?? '';
+if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+    http_response_code(401);
+    echo json_encode(["message" => "Token Missing"]);
+    exit;
+}
+$token = $matches[1];
+include '../config/connect.php';
+if(verify_jwt($token)){
+    if($_SERVER["REQUEST_METHOD"]=="GET"){
+        $checkuser = $con->prepare("SELECT id,email,password FROM users");
+        $checkuser->execute();
+        $result = $checkuser->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        http_response_code(200);
+        echo json_encode(["message" => "Ok","data" => $data]);
+    }
+    else{
+        http_response_code(405);
+        echo json_encode(["message" => "Method Not Valid"]);
+    }
+}
+else{
+    http_response_code(401);
+    echo json_encode(["message" => "Invalid Token"]);
+}
+?>

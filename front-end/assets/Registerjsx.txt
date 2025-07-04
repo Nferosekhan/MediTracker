@@ -1,0 +1,50 @@
+import { useState } from "react";
+import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+export const Register = () => {
+    const [data,setData] = useState([]);
+    // const [file,setFile] = useState(null);
+    const [isShow,setShow] = useState(false);
+    const navigate = useNavigate();
+    const handlechanges = (e) => {
+        const {name,value} = e.target;
+        // if(name=="terms"){
+        //     setData((prev) => ({
+        //         ...prev,[name]:checked?1:0
+        //     }))
+        // }
+        // else{
+            setData((prev) => ({
+                ...prev,[name]:value
+            }))
+        // }
+    };
+    const handlesubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post("http://localhost/basics/api/register.php",data);
+            alert(res.data.message);
+            navigate('/');
+        }
+        catch (err) {
+            alert(err.response?.data?.message || "Registration Failed");
+        }
+    };
+    return(
+        <>
+            <h1>
+                Register
+            </h1>
+            <form onSubmit={handlesubmit} autoComplete="off">
+                <input type="email" id="email" name="email" placeholder="Enter Your Username" onChange={handlechanges} className="form-control" required />
+                <input type={isShow?"text":"password"} id="password" name="password" placeholder="Enter Your Password" onChange={handlechanges} className="form-control" required />
+                <span className="btn btn-outline-secondary" onClick={() => setShow(!isShow)}>
+                    <FontAwesomeIcon icon={isShow?faEyeSlash:faEye}/>
+                </span>
+                <input type="submit" className="btn btn-success" id="register" name="register" value="Register" />
+            </form>
+        </>
+    );
+};
